@@ -76,6 +76,19 @@
             </DCArtboard>
           </DCSection>
 
+          <DCSection
+            id="article"
+            title="Подробный просмотр новости"
+            subtitle="Редакционный layout статьи · Desktop + Mobile"
+          >
+            <DCArtboard id="article-desktop" label="Desktop · статья" width={1280} height={3300}>
+              <DesktopArticle />
+            </DCArtboard>
+            <DCArtboard id="article-mobile" label="Mobile · статья" width={390} height={3100}>
+              <MobileArticle />
+            </DCArtboard>
+          </DCSection>
+
           <DCSection id="anatomy" title="Анатомия" subtitle="Карточки во всех вариантах">
             <DCArtboard id="anatomy-news-hero" label="Hero‑карточка новости" width={860} height={460}>
               <Frame>
