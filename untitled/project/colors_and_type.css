@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Ритмовремя-ТВ — design tokens (colors, type, spacing, radii, shadows)
+   Mirrors src/sass/vars.sass + typography.sass from the production codebase.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Roboto is the only production typeface.
+   Variable-font files supplied by the user are loaded locally (no network call).
+   Both files are full Roboto variable axes (wdth + wght) — one upright, one italic. */
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-VariableFont_wdth_wght.ttf') format('truetype-variations'),
+       url('fonts/Roboto-VariableFont_wdth_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-Italic-VariableFont_wdth_wght.ttf') format('truetype-variations'),
+       url('fonts/Roboto-Italic-VariableFont_wdth_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ── Brand & UI colors ─────────────────────────────────────────── */
+  --c-blue:           #0B4EAE;  /* primary — headings, key actions      */
+  --c-light-blue:     #1476CD;  /* CTA bg, links, interactive            */
+  --c-lightest-blue:  #00BAF2;  /* accent / on-hover light variant       */
+  --c-dark-blue:      #19419E;  /* primary hover                         */
+  --c-pink:           #DA1272;  /* live indicator, active tab, accent    */
+  --c-pink-bright:    #E40A7F;  /* logo / video title accent             */
+  --c-cyan:           #4BB7C9;  /* logo accent                           */
+
+  --c-text:           #0A274A;  /* body text — dark navy, not black      */
+  --c-gray:           #8493A5;  /* secondary text, muted icons           */
+  --c-blue-gray:      #596882;  /* secondary UI                          */
+  --c-dark-gray:      #333333;  /* footer copy                           */
+  --c-light-gray:     #CDD2D6;  /* borders, disabled states              */
+  --c-lightest-gray:  #F7F5FA;  /* card alt background                   */
+  --c-disabled-gray:  #F8F8F8;  /* disabled inputs                       */
+  --c-grayish:        #fcfbfd;  /* subtle background tint                */
+
+  --c-white:          #ffffff;
+  --c-bg:             #F9F9FB;  /* page background                       */
+  --c-bg-blue:        #f1f8ff;  /* section background tint               */
+  --c-header-bg:      #E8EBF5;  /* light header band                     */
+  --c-border:         #D6DCEF;  /* default border / line separator       */
+  --c-placeholder:    #B9C2DF;  /* input placeholder                     */
+
+  --c-error:          #BC0000;
+  --c-success:        #27AE60;
+  --c-video-title:    #AAB6F3;  /* video section heading on dark bg     */
+
+  /* ── Backgrounds & gradients ───────────────────────────────────── */
+  --grad-brand:       linear-gradient(92.03deg, #0744A0 -0.46%, #493595 97.22%);
+  --grad-nav:         linear-gradient(103.59deg, #E6ECF6 14.41%, #EFEBF4 94.95%);
+  --grad-media-audio: linear-gradient(103.59deg, rgba(230,236,246,.6) 14.41%, rgba(239,235,244,.6) 94.95%);
+  --grad-gray-1:      linear-gradient(103.59deg, rgba(230,236,246,.1) 14.41%, rgba(239,235,244,.1) 94.95%);
+  --grad-gray-7:      linear-gradient(103.59deg, rgba(230,236,246,.7) 14.41%, rgba(239,235,244,.7) 94.95%);
+  --bg-footer:        #103080;
+
+  /* ── Type ──────────────────────────────────────────────────────── */
+  --font-base:        'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Semantic type tokens — paired font-size/line-height/weight/color  */
+  /* h1 / h2 follow browser defaults; h3/h4 are explicitly defined.    */
+  --h2-size:          18px;        /* laptop max-width override        */
+  --h3-size:          24px;
+  --h3-lh:            30px;
+  --h3-ls:            0.005em;
+  --h4-size:          20px;
+  --h4-lh:            24px;
+  --h4-ls:            0.005em;
+
+  --body-size:        14px;
+  --body-lh:          21px;
+  --label-size:       16px;
+  --label-lh:         24px;
+  --small-size:       11px;
+  --xs-size:          12px;
+
+  --weight-light:     300;
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-bold:      700;
+
+  /* ── Layout ────────────────────────────────────────────────────── */
+  --min-width:        1100px;
+  --max-width:        1305px;
+  --max-width-wide:   1730px;
+  --aside-width:      340px;
+  --header-height:    90px;
+  --header-h-laptop:  64px;
+  --footer-height:    100px;
+  --site-padd:        24px;
+  --site-padd-mobile: 12px;
+  --site-padd-footer: 100px;
+  --gutter:           12px;
+
+  /* ── Breakpoints (px values for reference, used in @media queries) */
+  --bp-laptop:        1269px;
+  --bp-tablet:        900px;
+  --bp-mobile:        767px;
+  --bp-small:         580px;
+
+  /* ── Radii & borders ───────────────────────────────────────────── */
+  --radius:           4px;        /* the only corner radius in the system */
+  --block-border:     1px solid var(--c-border);
+  --ui-border:        1px solid rgba(9, 68, 161, 0.15);
+
+  /* ── Shadows ───────────────────────────────────────────────────── */
+  --sh-hover:         2px 2px 8px rgba(20, 23, 83, 0.20); /* on buttons, cards */
+  --sh-active:        inset -2px -2px 8px rgba(20, 23, 83, 0.15); /* pressed */
+  --sh-card:          0px 7px 40px 0px rgba(10, 39, 74, 0.25);    /* auth/modal */
+  --sh-stripe-l:      inset -7px 0px 22px rgba(20, 23, 83, 0.20); /* page edges */
+  --sh-stripe-r:      inset 7px 0px 22px rgba(20, 23, 83, 0.20);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Base element styles — match base.sass + typography.sass exactly
+   ═══════════════════════════════════════════════════════════════════ */
+html, body {
+  font-family: var(--font-base);
+  color: var(--c-text);
+  background: var(--c-bg);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  color: var(--c-blue);
+  margin: 0;
+  font-weight: var(--weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: var(--h3-lh);
+  letter-spacing: var(--h3-ls);
+}
+
+h4 {
+  font-size: var(--h4-size);
+  line-height: var(--h4-lh);
+  letter-spacing: var(--h4-ls);
+  margin-bottom: 4px;
+}
+
+@media (max-width: 1269px) {
+  h2 { font-size: var(--h2-size); }
+}
+
+@media (max-width: 767px) {
+  h3 { font-size: 18px; line-height: 100%; }
+}
+
+a {
+  color: var(--c-light-blue);
+  text-decoration: underline;
+}
+a:hover { font-weight: var(--weight-medium); }
+
+p, body {
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+}
+small, .small { font-size: var(--small-size); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Reusable utility tokens (pure CSS, no preprocessor)
+   ═══════════════════════════════════════════════════════════════════ */
+.t-blue       { color: var(--c-blue); }
+.t-light-blue { color: var(--c-light-blue); }
+.t-pink       { color: var(--c-pink); }
+.t-text       { color: var(--c-text); }
+.t-gray       { color: var(--c-gray); }
+.t-white      { color: var(--c-white); }
+
+.bg-page      { background: var(--c-bg); }
+.bg-card      { background: var(--c-white); }
+.bg-soft      { background: var(--c-lightest-gray); }
+.bg-brand     { background: var(--grad-brand); }
+.bg-nav       { background: var(--grad-nav); }

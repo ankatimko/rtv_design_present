@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Полотна — Сервисы — Ритмовремя‑ТВ</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { background: #F4F5F9; }
+  /* Wide-page edge stripes (matches base.sass) */
+  @media (min-width: 1305px) {
+    body::before, body::after {
+      content: ""; position: fixed; top: 0; bottom: 0; width: 80px;
+      background: #E6ECF6; z-index: -1; pointer-events: none;
+    }
+    body::before { left: 0;  box-shadow: var(--sh-stripe-l); }
+    body::after  { right: 0; box-shadow: var(--sh-stripe-r); }
+  }
+  #root { isolation: isolate; }
+  /* Smooth scrollbar on the dropdown menus */
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-thumb { background: rgba(138,143,163,0.35); border-radius: 4px; }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(138,143,163,0.55); }
+</style>
+
+<!-- React 18 + Babel (pinned, integrity-checked) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Plain JS data + utilities -->
+<script src="data.js"></script>
+
+<!-- Existing design-system components -->
+<script type="text/babel" src="Icon.jsx"></script>
+<script type="text/babel" src="Primitives.jsx"></script>
+<script type="text/babel" src="Header.jsx"></script>
+<script type="text/babel" src="Sidebar.jsx"></script>
+
+<!-- New Полотна service -->
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="LevelScreens.jsx"></script>
+<script type="text/babel" src="PracticePlayer.jsx"></script>
+<script type="text/babel" src="App.jsx"></script>
+</body>
+</html>
