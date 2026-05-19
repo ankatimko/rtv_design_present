@@ -540,64 +540,35 @@
                 <span style={{ fontSize: 16, textTransform: "none" }}>←</span> ко всем новостям
               </a>
 
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(0, 1fr) 300px",
-                gap: 48, alignItems: "flex-start",
-              }}>
-                <article style={{ minWidth: 0 }}>
-                  <ArticleHeader article={a} />
+              <article style={{ minWidth: 0, maxWidth: 760 }}>
+                <ArticleHeader article={a} />
 
-                  <figure style={{ margin: "0 0 32px" }}>
-                    <div style={{
-                      width: "100%", aspectRatio: "16 / 9",
-                      background: `url(${a.cover}) center/cover, var(--c-bg-blue)`,
-                      borderRadius: "var(--radius)",
-                      boxShadow: "0 24px 60px -20px rgba(10,39,74,.35)",
-                    }} />
-                    {a.coverCaption ? (
-                      <figcaption style={{
-                        marginTop: 10, fontSize: 12, color: "var(--c-gray)",
-                        fontStyle: "italic", letterSpacing: ".005em",
-                      }}>{a.coverCaption}</figcaption>
-                    ) : null}
-                  </figure>
-
-                  <p style={{
-                    margin: "0 0 28px",
-                    fontSize: 20, lineHeight: "30px",
-                    color: "var(--c-blue)", fontWeight: 500,
-                    letterSpacing: ".005em", textWrap: "pretty",
-                  }}>{a.lede}</p>
-
-                  <ArticleBody blocks={a.blocks} />
-
+                <figure style={{ margin: "0 0 32px" }}>
                   <div style={{
-                    marginTop: 36, paddingTop: 22,
-                    borderTop: "1px solid var(--c-border)",
-                    display: "flex", flexDirection: "column", gap: 16,
-                  }}>
-                    <TagChips tags={a.tags} />
-                    <div style={{
-                      display: "flex", alignItems: "center", justifyContent: "space-between",
-                      gap: 16, flexWrap: "wrap",
-                    }}>
-                      <ShareStrip />
-                      <ReactionBar />
-                    </div>
-                  </div>
+                    width: "100%", aspectRatio: "16 / 9",
+                    background: `url(${a.cover}) center/cover, var(--c-bg-blue)`,
+                    borderRadius: "var(--radius)",
+                    boxShadow: "0 24px 60px -20px rgba(10,39,74,.35)",
+                  }} />
+                  {a.coverCaption ? (
+                    <figcaption style={{
+                      marginTop: 10, fontSize: 12, color: "var(--c-gray)",
+                      fontStyle: "italic", letterSpacing: ".005em",
+                    }}>{a.coverCaption}</figcaption>
+                  ) : null}
+                </figure>
 
-                  <ArticleNav />
-                </article>
+                <p style={{
+                  margin: "0 0 28px",
+                  fontSize: 20, lineHeight: "30px",
+                  color: "var(--c-blue)", fontWeight: 500,
+                  letterSpacing: ".005em", textWrap: "pretty",
+                }}>{a.lede}</p>
 
-                <aside style={{
-                  position: "sticky", top: 24,
-                  display: "flex", flexDirection: "column", gap: 28,
-                }}>
-                  <AuthorCard author={a.author} />
-                  <RelatedRail items={window.SAMPLE_RELATED} />
-                </aside>
-              </div>
+                <ArticleBody blocks={a.blocks} />
+
+                <ArticleNav />
+              </article>
             </main>
           </div>
         </div>
@@ -682,17 +653,6 @@
             }}>{a.lede}</p>
 
             <ArticleBody blocks={a.blocks} mobile />
-
-            <div style={{
-              marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--c-border)",
-              display: "flex", flexDirection: "column", gap: 18,
-            }}>
-              <TagChips tags={a.tags} />
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-                <ShareStrip compact />
-                <ReactionBar />
-              </div>
-            </div>
           </article>
 
           <div style={{ padding: "8px 16px 24px" }}>
