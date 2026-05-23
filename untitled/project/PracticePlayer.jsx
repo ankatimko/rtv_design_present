@@ -347,21 +347,8 @@
               pointerEvents: "none", whiteSpace: "nowrap",
             }}>{window.fmtTime(hover.sec)}</div>
           ) : null}
-          {/* fragment ticks */}
-          {offsets.map((off, i) => {
-            if (i === 0) return null;
-            const left = (off / total) * 100;
-            const past = off <= position;
-            return (
-              <span key={i} style={{
-                position: "absolute", left: `${left}%`, top: 5,
-                width: 1, height: 8,
-                background: past ? "rgba(255,255,255,0.85)" : "rgba(10,39,74,0.25)",
-                transform: "translateX(-0.5px)",
-                pointerEvents: "none",
-              }} />
-            );
-          })}
+          {/* fragment ticks — removed per design feedback: divisions on the timeline
+              clutter the seek bar; the fragment list below already shows boundaries. */}
           {/* playhead */}
           <span style={{
             position: "absolute", left: `${pct}%`, top: 1,

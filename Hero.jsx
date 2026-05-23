@@ -63,7 +63,10 @@
       <nav style={{
         display: "flex", alignItems: "center", flexWrap: "wrap",
         gap: 4, fontSize: 14, color: C.navy,
-        position: "relative", zIndex: 2,
+        // Breadcrumb dropdowns must paint above the search box and the
+        // level content below the hero — bump z-index well above the
+        // search row (z:2) and below the hero's info button (z:3).
+        position: "relative", zIndex: 20,
       }}>
         {visible.map((seg, i) => (
           <React.Fragment key={i}>
@@ -80,6 +83,7 @@
                 items={seg.siblings || []}
                 onPick={seg.onPick}
                 onSelf={seg.onSelf}
+                defaultOpen={seg.defaultOpen}
               />
             )}
           </React.Fragment>
@@ -88,8 +92,8 @@
     );
   };
 
-  function CrumbDropdown({ label, items, terminal, onPick, onSelf }) {
-    const [open, setOpen] = useState(false);
+  function CrumbDropdown({ label, items, terminal, onPick, onSelf, defaultOpen }) {
+    const [open, setOpen] = useState(!!defaultOpen);
     const ref = useRef(null);
     useEffect(() => {
       if (!open) return;
@@ -188,7 +192,10 @@
         borderRadius: 12,
         padding: "16px 20px",
         marginBottom: 16,
-        overflow: "hidden",
+        // overflow: visible so an open breadcrumb dropdown can extend past
+        // the hero card. The decorative blobs are inside an <svg> with its
+        // own viewBox + 100%×100% box, so they stay contained anyway.
+        overflow: "visible",
         border: `1px solid ${C.border}`,
       }}>
         <HeroBlobs />
@@ -203,23 +210,12 @@
           cursor: "pointer",
         }}>i</button>
 
-        {/* Level pill */}
-        <div style={{
-          position: "relative", zIndex: 2,
-          display: "inline-flex", alignItems: "center", gap: 6,
-          padding: "2px 8px", borderRadius: 999,
-          background: "rgba(255,255,255,0.75)",
-          color: C.magenta, fontSize: 10, fontWeight: 700, letterSpacing: "0.04em",
-          textTransform: "uppercase", marginBottom: 6,
-        }}>
-          <span style={{ width: 5, height: 5, borderRadius: "50%", background: C.magenta }} />
-          {level}
-        </div>
+        {/* Level pill removed — it just duplicated the breadcrumbs. */}
 
         <h1 style={{
           position: "relative", zIndex: 2, margin: 0,
           color: C.blue, fontWeight: 700,
-          fontSize: 24, lineHeight: "30px", letterSpacing: "0.005em",
+          fontSize: 26, lineHeight: "32px", letterSpacing: "0.005em",
           maxWidth: "calc(100% - 200px)",
         }}>{title}</h1>
 
@@ -265,7 +261,7 @@
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onFocus={() => setFocused(true)}
-            placeholder="Поиск по всем Полотнам…"
+            placeholder="Найти полотно"
             style={{
               flex: 1, border: "none", outline: "none", background: "transparent",
               fontFamily: "var(--font-base)", fontSize: 13, color: C.navy,

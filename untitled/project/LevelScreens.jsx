@@ -6,9 +6,13 @@
 (function () {
   const C = window.POLOTNA_C;
 
-  // ── L1: compact horizontal banner with a prominent meta strip ────
-  //     (the parent Сервисы catalog uses bigger colored banners
-  //      *without* the meta strip — that's the visual differentiator.)
+  // ── L1: deep book-colour tiles with the cover illustration on the right ──
+  //
+  // Tile = the book's deep colour (tonal gradient, ~18% darker on the right
+  // edge). The cover's *illustration only* — figures + light rays, cropped
+  // out of the cover and pre-masked into a radial alpha falloff (see
+  // assets/illust-*.png) — sits on the right and dissolves into the colour
+  // field, with no author/title text and no hard edge.
   window.LevelThemes = function LevelThemes({ themes, onPick }) {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -16,58 +20,87 @@
           <button key={th.id} onClick={() => onPick(th.id)} style={{
             position: "relative", display: "block", width: "100%",
             border: "none", padding: 0, cursor: "pointer",
-            borderRadius: 8, overflow: "hidden",
+            borderRadius: 10, overflow: "hidden",
+            // Tonal gradient: from base colour to ~15-20% darker version of itself.
             background: `linear-gradient(96deg, ${th.grad[0]} 0%, ${th.grad[1]} 100%)`,
             color: "#fff", textAlign: "left",
             transition: ".15s",
             boxShadow: "0 1px 0 rgba(10,39,74,0.04)",
             fontFamily: "var(--font-base)",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 6px 16px rgba(10,39,74,0.14)"; }}
+          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 8px 20px rgba(10,39,74,0.18)"; }}
           onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 1px 0 rgba(10,39,74,0.04)"; }}
           >
-            <svg viewBox="0 0 800 120" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.28, pointerEvents: "none" }}>
-              <circle cx="730" cy="20"  r="48" fill="rgba(255,255,255,0.40)" />
-              <circle cx="660" cy="110" r="70" fill="rgba(255,255,255,0.14)" />
-              <circle cx="80"  cy="115" r="44" fill="rgba(255,255,255,0.16)" />
-            </svg>
+            {/* Cover illustration ONLY (figures + rays, no author/title text), already
+                radial-alpha-masked at source so its edges dissolve into the tile colour. */}
+            {th.cover ? (
+              <img
+                src={th.cover}
+                alt=""
+                aria-hidden="true"
+                style={{
+                  position: "absolute", top: "50%", right: 0,
+                  transform: "translateY(-50%)",
+                  height: "175%", width: "auto", maxWidth: "44%",
+                  objectFit: "contain", objectPosition: "right center",
+                  opacity: 0.78, pointerEvents: "none",
+                  // mix-blend-mode `screen` keeps the cover's glowing rays bright on
+                  // the deep tile and lets dark pixels become invisible — exactly the
+                  // "no black box" / glow-through-colour effect we want.
+                  mixBlendMode: "screen",
+                  // extra soft fade on the left edge so it bleeds further into the gradient
+                  WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 30%, #000 100%)",
+                          maskImage: "linear-gradient(90deg, transparent 0%, #000 30%, #000 100%)",
+                }}
+              />
+            ) : null}
+            {/* Left-side darken overlay to keep headline crisp over the rays */}
+            <span style={{
+              position: "absolute", inset: 0, pointerEvents: "none",
+              background: `linear-gradient(90deg, ${th.grad[0]} 0%, ${th.grad[0]}cc 36%, transparent 60%)`,
+            }} />
 
             <div style={{
               position: "relative",
               display: "grid", gridTemplateColumns: "1fr auto",
               alignItems: "center", gap: 16,
-              padding: "16px 20px",
+              padding: "14px 22px",
               minHeight: 96,
             }}>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.9, marginBottom: 4 }}>
-                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#fff" }} />
-                  Тема
-                </div>
+              <div style={{ minWidth: 0, maxWidth: "min(520px, 56%)" }}>
                 <h2 style={{ margin: 0, color: "#fff", fontSize: 22, lineHeight: "26px", fontWeight: 700, letterSpacing: "0.005em" }}>
                   «{th.title}»
                 </h2>
-                <p style={{ margin: "4px 0 0", fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.92)", display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                <p style={{ margin: "4px 0 0", fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.86)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                   {th.tagline}
                 </p>
               </div>
 
-              {/* Right-side meta strip — the marker that says "you are inside Полотна" */}
               <div style={{
-                display: "flex", alignItems: "center", gap: 0,
-                background: "rgba(255,255,255,0.16)",
-                border: "1px solid rgba(255,255,255,0.22)",
-                borderRadius: 6,
-                padding: "8px 4px",
-                color: "#fff", fontSize: 12, lineHeight: 1.1,
-                backdropFilter: "blur(2px)",
+                display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6,
+                color: "#fff",
+                marginRight: "clamp(150px, 34%, 290px)",
               }}>
-                <MetaCell value={th.canvasTypeCount} label="типа" />
-                <MetaDivider />
-                <MetaCell value={th.canvasCount} label="полотен" />
-                <MetaDivider />
-                <MetaCell value={window.fmtTime(th.totalDuration)} label="длительность" mono />
-                <span style={{ padding: "0 12px 0 8px", display: "inline-flex", alignItems: "center", gap: 4, fontSize: 13, fontWeight: 600 }}>
+                <div style={{
+                  display: "flex", alignItems: "center", gap: 14,
+                  background: "rgba(0,0,0,0.22)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: 6,
+                  padding: "6px 12px",
+                  backdropFilter: "blur(3px)",
+                  WebkitBackdropFilter: "blur(3px)",
+                }}>
+                  <MetaCell value={th.canvasTypeCount} label={window.pluralize(th.canvasTypeCount, ["тип","типа","типов"])} />
+                  <MetaDivider />
+                  <MetaCell value={th.canvasCount} label={window.pluralize(th.canvasCount, ["полотно","полотна","полотен"])} />
+                </div>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  fontSize: 12, fontWeight: 600,
+                  color: "rgba(255,255,255,0.92)",
+                  padding: "3px 9px", borderRadius: 999,
+                  background: "rgba(255,255,255,0.08)",
+                }}>
                   открыть <span style={{ fontSize: 14, lineHeight: 1 }}>›</span>
                 </span>
               </div>
@@ -78,16 +111,16 @@
     );
   };
 
-  function MetaCell({ value, label, mono }) {
+  function MetaCell({ value, label }) {
     return (
-      <span style={{ padding: "0 10px", textAlign: "center", display: "inline-flex", flexDirection: "column", alignItems: "center", lineHeight: 1.1, gap: 2 }}>
-        <span style={{ fontSize: 15, fontWeight: 700, fontVariantNumeric: mono ? "tabular-nums" : "normal" }}>{value}</span>
-        <span style={{ fontSize: 10, opacity: 0.85, letterSpacing: "0.04em", textTransform: "uppercase" }}>{label}</span>
+      <span style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", lineHeight: 1.05, gap: 1, minWidth: 48 }}>
+        <span style={{ fontSize: 17, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{value}</span>
+        <span style={{ fontSize: 10, opacity: 0.78, letterSpacing: "0.02em" }}>{label}</span>
       </span>
     );
   }
   function MetaDivider() {
-    return <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.28)" }} />;
+    return <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.24)" }} />;
   }
 
   // ── L2: 2-col tiles for canvas types ──────────────────────────────
@@ -128,12 +161,9 @@
               <div style={{ marginTop: "auto", paddingTop: 6, display: "flex", gap: 12, fontSize: 12, color: C.muted, alignItems: "center" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
                   <Icon name="grid" size={11} color={C.muted} />
-                  {ty.canvasCount} полотен
+                  {window.plurN(ty.canvasCount, ["полотно","полотна","полотен"])}
                 </span>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  <Icon name="time" size={11} color={C.muted} />
-                  {window.fmtTime(ty.totalDuration)}
-                </span>
+                {/* Duration removed at the type level — it lives on each canvas. */}
                 <span style={{ marginLeft: "auto", color: C.blue, fontSize: 12, fontWeight: 500 }}>открыть ›</span>
               </div>
             </div>

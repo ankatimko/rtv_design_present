@@ -8,6 +8,21 @@
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
+  // Russian noun pluralization: pluralize(21, ["полотно","полотна","полотен"]) → "полотно"
+  //   form 0 → 1, 21, 31… (mod10 == 1, except teens 11–19)
+  //   form 1 → 2-4, 22-24… (mod10 2..4, except teens)
+  //   form 2 → 0, 5-20, 25-30…
+  window.pluralize = function pluralize(n, forms) {
+    n = Math.abs(n) | 0;
+    const mod10 = n % 10, mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 19) return forms[2];
+    if (mod10 === 1) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4) return forms[1];
+    return forms[2];
+  };
+  // Convenience: "21 полотно" / "14 полотен"
+  window.plurN = function plurN(n, forms) { return `${n} ${window.pluralize(n, forms)}`; };
+
   // Rough fragment generator — keeps the dataset compact but realistic.
   function makeFragments(prefix, count) {
     const parts = [
@@ -63,13 +78,16 @@
       title: "Всё об энергии",
       shortTitle: "энергии",
       tagline: "Ритмомерные полотна для работы с энергетическим телом и потоками.",
-      // theme colour pair (banner gradient)
-      grad: ["#E5006D", "#FF6B7D"],
+      // Muted, book-cover colour — tonal gradient (same hue, ~18% darker on the right).
+      // Anchor: the deep emerald glow of the «Всё об энергии» cover.
+      grad: ["#1F4E3D", "#143628"],
+      cover: "assets/illust-energy.png",
+      coverFull: "assets/cover-energy.png",
       types: [
-        { id: "znak",   title: "Знаковые полотна",     description: "Полотна на основе ритмомерных знаков для тела и быта.", canvases: energySign },
-        { id: "unique", title: "Уникальные полотна",   description: "Особые однократные практики, записанные в озарины.",     canvases: genericCanvases("e-unique", ["Поток предрассветный", "Озарин июльского полудня", "Ритм одной минуты", "Сборка дня", "Завершение цикла"]) },
-        { id: "fire",   title: "Огненосные полотна",   description: "Энергоёмкие практики с акцентом на разогрев и сборку.",  canvases: genericCanvases("e-fire", ["Огонь ладоней", "Огонь сердца", "Огонь шага", "Огонь дыхания"]) },
-        { id: "study",  title: "Учебные полотна",      description: "Базовые практики для тех, кто только начинает.",         canvases: genericCanvases("e-study", ["Урок 1 · Ладони", "Урок 2 · Лоб", "Урок 3 · Сердце", "Урок 4 · Позвоночник", "Урок 5 · Дыхание", "Урок 6 · Сборка"]) },
+        { id: "znak",   title: "Знаковые полотна",     description: "Знаковые полотна позволяют узнать окружающих вас людей — какие они в энергии, в информации и в пространстве.", canvases: energySign },
+        { id: "unique", title: "Уникальные полотна",   description: "Уникальные полотна дают возможность коррекции самого себя.",     canvases: genericCanvases("e-unique", ["Поток предрассветный", "Озарин июльского полудня", "Ритм одной минуты", "Сборка дня", "Завершение цикла"]) },
+        { id: "fire",   title: "Огненосные полотна",   description: "Огненосные полотна действуют из времени и влияют на вашу суть.",  canvases: genericCanvases("e-fire", ["Огонь ладоней", "Огонь сердца", "Огонь шага", "Огонь дыхания"]) },
+        { id: "study",  title: "Учебные полотна",      description: "Учебные полотна позволят вам улучшить своё окружение в энергии.",         canvases: genericCanvases("e-study", ["Урок 1 · Ладони", "Урок 2 · Лоб", "Урок 3 · Сердце", "Урок 4 · Позвоночник", "Урок 5 · Дыхание", "Урок 6 · Сборка"]) },
       ],
     },
     {
@@ -77,7 +95,10 @@
       title: "Всё об информации",
       shortTitle: "информации",
       tagline: "Полотна, передающие информационную ткань ритмомерных образов.",
-      grad: ["#1B3FD8", "#5B7EF7"],
+      // Terracotta-bordeaux from the «Всё об информации» cover — not fuchsia.
+      grad: ["#722A2C", "#4E1B1D"],
+      cover: "assets/illust-info.png",
+      coverFull: "assets/cover-info.png",
       types: [
         { id: "znak",   title: "Знаковые полотна",   description: "Информационные знаки в чтении и письме.",     canvases: genericCanvases("i-znak",   ["Знак прочтения", "Знак записи", "Знак ответа", "Знак вопроса"]) },
         { id: "unique", title: "Уникальные полотна", description: "Информационные срезы по конкретным датам.",    canvases: genericCanvases("i-unique", ["Срез 21.06", "Срез 22.09", "Срез 21.12"]) },
@@ -90,7 +111,10 @@
       title: "Всё о пространстве",
       shortTitle: "пространстве",
       tagline: "Работа с пространственными слоями: тело, комната, дом, путь.",
-      grad: ["#0E8E76", "#4BB7C9"],
+      // Muted blue-violet — pulled from the dual blue/pink figures of the cover.
+      grad: ["#3A4380", "#272E5C"],
+      cover: "assets/illust-space.png",
+      coverFull: "assets/cover-space.png",
       types: [
         { id: "znak",   title: "Знаковые полотна",   description: "Знаки пространства тела и среды.",         canvases: genericCanvases("s-znak",   ["Знак комнаты", "Знак двери", "Знак угла", "Знак окна"]) },
         { id: "unique", title: "Уникальные полотна", description: "Полотна для конкретных мест и переходов.", canvases: genericCanvases("s-unique", ["Дорога", "Перрон", "Лестница"]) },
@@ -103,7 +127,10 @@
       title: "Всё о времени",
       shortTitle: "времени",
       tagline: "Ритмомерные часы, календарь, минута, час и сутки в практике.",
-      grad: ["#6E3CF2", "#B57BFF"],
+      // Deep indigo — closest to the multicoloured «Всё о времени» cover's dark field.
+      grad: ["#2B2566", "#1A1645"],
+      cover: "assets/illust-time.png",
+      coverFull: "assets/cover-time.png",
       types: [
         { id: "znak",   title: "Знаковые полотна",   description: "Знаки времени: минута, час, сутки, ритм.",     canvases: genericCanvases("t-znak",   ["Знак минуты", "Знак часа", "Знак суток", "Знак ритма"]) },
         { id: "unique", title: "Уникальные полотна", description: "Одиночные временные практики и переходы.",     canvases: genericCanvases("t-unique", ["Минута тишины", "Час равновесия", "Сутки сборки"]) },
