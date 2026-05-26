@@ -77,7 +77,7 @@
       id: "energy",
       title: "Всё об энергии",
       shortTitle: "энергии",
-      tagline: "Ритмомерные полотна для работы с энергетическим телом и потоками.",
+      tagline: "Откройте, сколько энергии у вас есть на самом деле, восполните утраченное и научитесь делиться силой, не теряя себя.",
       // Muted, book-cover colour — tonal gradient (same hue, ~18% darker on the right).
       // Anchor: the deep emerald glow of the «Всё об энергии» cover.
       grad: ["#1F4E3D", "#143628"],
@@ -94,7 +94,7 @@
       id: "info",
       title: "Всё об информации",
       shortTitle: "информации",
-      tagline: "Полотна, передающие информационную ткань ритмомерных образов.",
+      tagline: "Узнайте, как ваш мозг откликается на слова, и превратите конфликтные диалоги в живой обмен, где две половинки наконец сходятся.",
       // Terracotta-bordeaux from the «Всё об информации» cover — not fuchsia.
       grad: ["#722A2C", "#4E1B1D"],
       cover: "assets/illust-info.png",
@@ -110,7 +110,7 @@
       id: "space",
       title: "Всё о пространстве",
       shortTitle: "пространстве",
-      tagline: "Работа с пространственными слоями: тело, комната, дом, путь.",
+      tagline: "Расширьте мир вокруг себя, легко перемещайтесь между «своим» и новым и почувствуйте, как пространство становится по-настоящему вашим.",
       // Muted blue-violet — pulled from the dual blue/pink figures of the cover.
       grad: ["#3A4380", "#272E5C"],
       cover: "assets/illust-space.png",
@@ -126,7 +126,7 @@
       id: "time",
       title: "Всё о времени",
       shortTitle: "времени",
-      tagline: "Ритмомерные часы, календарь, минута, час и сутки в практике.",
+      tagline: "Верните мозгу звёздное, солнечное, лунное и планетарное время — и перейдите к полноценной жизни.",
       // Deep indigo — closest to the multicoloured «Всё о времени» cover's dark field.
       grad: ["#2B2566", "#1A1645"],
       cover: "assets/illust-time.png",

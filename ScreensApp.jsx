@@ -15,6 +15,18 @@
           <DCArtboard id="L1" label="L1 · Полотна (главная)"           width={W} height={780}>
             <ScreenL1 />
           </DCArtboard>
+          <DCArtboard id="L1-bright" label="L1 · Полотна (главная) · яркая версия" width={W} height={780}>
+            <ScreenL1Bright />
+          </DCArtboard>
+          <DCArtboard id="L1-split" label="L1 · Полотна (главная) · нейтральная половина → цвет" width={W} height={780}>
+            <ScreenL1Split />
+          </DCArtboard>
+          <DCArtboard id="L1-soft" label="L1 · Полотна (главная) · пастельная, в палитре сайта" width={W} height={780}>
+            <ScreenL1Soft />
+          </DCArtboard>
+          <DCArtboard id="L1-soft-plain" label="L1 · Полотна (главная) · пастельная без иллюстраций" width={W} height={780}>
+            <ScreenL1SoftPlain />
+          </DCArtboard>
           <DCArtboard id="L2" label="L2 · Полотна «Всё об энергии»"    width={W} height={780}>
             <ScreenL2 />
           </DCArtboard>
@@ -26,6 +38,12 @@
           </DCArtboard>
           <DCArtboard id="L4" label="L4 · Знакоподсказка для тела"     width={W} height={980}>
             <ScreenL4 />
+          </DCArtboard>
+          <DCArtboard id="L4-matrix" label="L4 · Знакоподсказка для тела · со схемой и цитатами" width={1280} height={1080}>
+            <ScreenL4Matrix />
+          </DCArtboard>
+          <DCArtboard id="L4-time" label="L4 · Всё о времени · плейлист с подзаголовками + матрица" width={1280} height={1080}>
+            <ScreenL4Time />
           </DCArtboard>
         </DCSection>
       </DesignCanvas>
