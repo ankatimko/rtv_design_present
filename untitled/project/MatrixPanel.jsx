@@ -21,8 +21,12 @@
     s.id = "mp-styles";
     s.textContent = `
 @keyframes mp-pulse-cell {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.45); background: #EFE7FB; transform: scale(1); }
-  50%      { box-shadow: 0 0 0 6px rgba(124,58,237,0); background: #DDCFF6; transform: scale(1.03); }
+  0%, 100% { background: rgba(124,58,237,0.18); }
+  50%      { background: rgba(124,58,237,0.42); }
+}
+@keyframes mp-pulse-cell-filled {
+  0%, 100% { background: rgba(124,58,237,0.28); }
+  50%      { background: rgba(124,58,237,0.52); }
 }
 @keyframes mp-pulse-chip {
   0%, 100% { box-shadow: 0 0 0 0 rgba(229,0,109,0.35); background: #FCEDF3; border-color: #E5006D; }
@@ -32,7 +36,8 @@
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: none; }
 }
-.mp-pulse-cell { animation: mp-pulse-cell 1.6s ease-in-out infinite; }
+.mp-pulse-cell        { animation: mp-pulse-cell        2.6s ease-in-out infinite; }
+.mp-pulse-cell-filled { animation: mp-pulse-cell-filled 2.6s ease-in-out infinite; }
 .mp-pulse-chip { animation: mp-pulse-chip 1.6s ease-in-out infinite; }
 .mp-fade-in    { animation: mp-fade-in .3s ease-out; }
 `;
@@ -121,7 +126,8 @@
   //   row 3:  4    7
   //   row 4:  5    6
   // Arrows are drawn as a single SVG overlay following the production schema.
-  function MatrixGrid({ activeCell, title, prev, next }) {
+  function MatrixGrid({ activeCell, title, prev, next, pulseStyle = "glow" }) {
+    const filled = pulseStyle === "filled";
     const cells = [
       { n: 1,  row: 0, col: 0 }, { n: 10, row: 0, col: 1 },
       { n: 2,  row: 1, col: 0 }, { n: 9,  row: 1, col: 1 },
@@ -161,7 +167,7 @@
                     top: 6,
                     left:  cell.col === 0 ? 8 : "auto",
                     right: cell.col === 1 ? 8 : "auto",
-                    color: isActive ? "#7C3AED" : C.navy,
+                    color: isActive ? (filled ? C.navy : "#7C3AED") : C.navy,
                     fontSize: 18, fontWeight: 600,
                     fontVariantNumeric: "tabular-nums",
                     zIndex: 2,
@@ -172,11 +178,10 @@
                   {/* Active highlight overlay */}
                   {isActive ? (
                     <span
-                      className="mp-pulse-cell"
-                      style={{
-                        position: "absolute", inset: 4,
-                        borderRadius: 4, zIndex: 1, pointerEvents: "none",
-                      }}
+                      className={filled ? "mp-pulse-cell-filled" : "mp-pulse-cell"}
+                      style={filled
+                        ? { position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none" }
+                        : { position: "absolute", inset: 1, zIndex: 1, pointerEvents: "none" }}
                     />
                   ) : null}
                 </div>
@@ -486,7 +491,7 @@
   //  Variant B: matrix right pane + sectioned playlist
   //  (used for "Всё о времени" canvases — Урок Радастеи N, etc.)
   // ─────────────────────────────────────────────────────────────────
-  window.CanvasPlayerWithMatrixSections = function CanvasPlayerWithMatrixSections({ canvas, sections }) {
+  window.CanvasPlayerWithMatrixSections = function CanvasPlayerWithMatrixSections({ canvas, sections, pulseStyle, sectionWidgets }) {
     const p = useFragmentPlayback(canvas);
     const [quoteOpen, setQuoteOpen] = useState(false);
 
@@ -521,6 +526,7 @@
             currentIdx={p.currentIdx}
             playing={p.playing}
             onPickFragment={p.seekToFragment}
+            sectionWidgets={sectionWidgets}
           />
 
           {/* RIGHT — matrix + active quote */}
@@ -535,6 +541,7 @@
               title={timeTitles[p.currentIdx]}
               prev={`Урок Радастеи ${((p.currentIdx + 4) * 7 + 12) % 108 + 1}`}
               next={`Урок Радастеи ${((p.currentIdx + 1) * 7 + 12) % 108 + 1}`}
+              pulseStyle={pulseStyle}
             />
             <ActiveQuote quote={currentQuote} expanded={quoteOpen} onToggle={() => setQuoteOpen((x) => !x)} />
           </div>
@@ -619,8 +626,10 @@
   //  Sectioned playlist — splits fragments into 3 groups, inserts a
   //  переизлучатель block between sections 1 and 2.
   // ─────────────────────────────────────────────────────────────────
-  function SectionedPlaylist({ fragments, titles, sections, currentIdx, playing, onPickFragment }) {
+  function SectionedPlaylist({ fragments, titles, sections, currentIdx, playing, onPickFragment, sectionWidgets }) {
     // sections is [{ title, range: [start, end] }, ...]
+    // sectionWidgets: { [sectionIndex]: ReactNode } — if set for a section,
+    //   the playlist rows for that section are replaced by the widget.
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 760, overflowY: "auto" }}>
         {sections.map((sec, si) => (
@@ -633,26 +642,30 @@
             }}>
               {sec.title}
             </div>
-            <div style={{
-              background: "#fff", borderRadius: 10, border: `1px solid ${C.border}`,
-              overflow: "hidden",
-              boxShadow: "0 1px 0 rgba(10,39,74,0.04)",
-            }}>
-              {fragments.slice(sec.range[0], sec.range[1]).map((f, j) => {
-                const i = sec.range[0] + j;
-                return (
-                  <PlaylistRow key={f.id}
-                    index={i}
-                    title={titles[i]}
-                    duration={f.duration}
-                    isCurrent={i === currentIdx}
-                    playing={playing}
-                    isLast={j === sec.range[1] - sec.range[0] - 1}
-                    onPick={() => onPickFragment(i)}
-                  />
-                );
-              })}
-            </div>
+            {sectionWidgets && sectionWidgets[si] ? (
+              sectionWidgets[si]
+            ) : (
+              <div style={{
+                background: "#fff", borderRadius: 10, border: `1px solid ${C.border}`,
+                overflow: "hidden",
+                boxShadow: "0 1px 0 rgba(10,39,74,0.04)",
+              }}>
+                {fragments.slice(sec.range[0], sec.range[1]).map((f, j) => {
+                  const i = sec.range[0] + j;
+                  return (
+                    <PlaylistRow key={f.id}
+                      index={i}
+                      title={titles[i]}
+                      duration={f.duration}
+                      isCurrent={i === currentIdx}
+                      playing={playing}
+                      isLast={j === sec.range[1] - sec.range[0] - 1}
+                      onPick={() => onPickFragment(i)}
+                    />
+                  );
+                })}
+              </div>
+            )}
 
           </React.Fragment>
         ))}

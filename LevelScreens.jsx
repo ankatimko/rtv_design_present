@@ -189,11 +189,11 @@
                 padding: "14px 22px",
                 minHeight: 96,
               }}>
-                <div style={{ minWidth: 0, maxWidth: "min(520px, 56%)" }}>
+                <div style={{ minWidth: 0, maxWidth: "min(820px, 72%)" }}>
                   <h2 style={{ margin: 0, color: title, fontSize: 22, lineHeight: "26px", fontWeight: 700, letterSpacing: "0.005em" }}>
                     «{th.title}»
                   </h2>
-                  <p style={{ margin: "4px 0 0", fontSize: 13, lineHeight: "18px", color: C.navy, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  <p style={{ margin: "4px 0 0", fontSize: 13, lineHeight: "18px", color: C.navy, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", maxWidth: "min(700px, 95%)" }}>
                     {th.tagline}
                   </p>
                 </div>

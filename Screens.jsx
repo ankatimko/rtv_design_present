@@ -311,4 +311,98 @@
       </ScreenFrame>
     );
   };
+
+  // ── L4 v4 — same as L4Time, but matrix cells fill fully and pulse by color only ─
+  window.ScreenL4TimeFilled = function ScreenL4TimeFilled() {
+    const theme  = window.findTheme("time");
+    const type   = window.findType("time", "znak");
+    const canvas = type.canvases[0];
+    const crumbs = buildCrumbs({ level: 4, theme, type, canvas });
+
+    const n = canvas.fragments.length;
+    const a = Math.floor(n * 0.35);
+    const b = Math.floor(n * 0.7);
+    const sections = [
+      { title: `Переизлучение названия «${canvas.title}» на циклах Ладовид`, range: [0, a] },
+      { title: `Полотно времени для Кольца Камней на ЦиклоХладавит`,         range: [a, b] },
+      { title: `Подкрутка для Эго-я`,                                         range: [b, n] },
+    ];
+
+    return (
+      <ScreenFrame>
+        <HeroCard
+          title={canvas.title}
+          breadcrumbSegments={crumbs}
+          rightContent={<HeroFavRight canvas={canvas} />}
+          search="" onSearch={noop} searchResults={[]} onSearchPick={noop}
+        />
+        <CanvasPlayerWithMatrixSections canvas={canvas} sections={sections} pulseStyle="filled" />
+      </ScreenFrame>
+    );
+  };
+  // ── L4 v5 — same as L4Time, but section 1 is the Pereizluchatel widget ─
+  window.ScreenL4TimePereizluchatel = function ScreenL4TimePereizluchatel() {
+    const theme  = window.findTheme("time");
+    const type   = window.findType("time", "znak");
+    const canvas = type.canvases[0];
+    const crumbs = buildCrumbs({ level: 4, theme, type, canvas });
+
+    const n = canvas.fragments.length;
+    const a = Math.floor(n * 0.35);
+    const b = Math.floor(n * 0.7);
+    const sections = [
+      { title: `Переизлучение названия «${canvas.title}» на циклах Ладовид`, range: [0, a] },
+      { title: `Полотно времени для Кольца Камней на ЦиклоХладавит`,         range: [a, b] },
+      { title: `Подкрутка для Эго-я`,                                         range: [b, n] },
+    ];
+
+    return (
+      <ScreenFrame>
+        <HeroCard
+          title={canvas.title}
+          breadcrumbSegments={crumbs}
+          rightContent={<HeroFavRight canvas={canvas} />}
+          search="" onSearch={noop} searchResults={[]} onSearchPick={noop}
+        />
+        <CanvasPlayerWithMatrixSections
+          canvas={canvas}
+          sections={sections}
+          sectionWidgets={{ 0: <PereizluchatelWidget /> }}
+        />
+      </ScreenFrame>
+    );
+  };
+  // ── L4 v6 — same as v5, but the Pereizluchatel uses windowed
+  //   carousel (prev / active / next + fade Предыдущий / Следующий)
+  window.ScreenL4TimePereizluchatelWindow = function ScreenL4TimePereizluchatelWindow() {
+    const theme  = window.findTheme("time");
+    const type   = window.findType("time", "znak");
+    const canvas = type.canvases[0];
+    const crumbs = buildCrumbs({ level: 4, theme, type, canvas });
+
+    const n = canvas.fragments.length;
+    const a = Math.floor(n * 0.35);
+    const b = Math.floor(n * 0.7);
+    const sections = [
+      { title: `Переизлучение названия «${canvas.title}» на циклах Ладовид`, range: [0, a] },
+      { title: `Полотно времени для Кольца Камней на ЦиклоХладавит`,         range: [a, b] },
+      { title: `Подкрутка для Эго-я`,                                         range: [b, n] },
+    ];
+
+    return (
+      <ScreenFrame>
+        <HeroCard
+          title={canvas.title}
+          breadcrumbSegments={crumbs}
+          rightContent={<HeroFavRight canvas={canvas} />}
+          search="" onSearch={noop} searchResults={[]} onSearchPick={noop}
+        />
+        <CanvasPlayerWithMatrixSections
+          canvas={canvas}
+          sections={sections}
+          sectionWidgets={{ 0: <PereizluchatelWidget variant="window" /> }}
+        />
+      </ScreenFrame>
+    );
+  };
 })();

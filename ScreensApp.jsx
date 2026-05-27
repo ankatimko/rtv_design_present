@@ -12,20 +12,8 @@
           title="Полотна — экраны"
           subtitle="L1 → L4 как отдельные статические экраны (вместо одного динамического)"
         >
-          <DCArtboard id="L1" label="L1 · Полотна (главная)"           width={W} height={780}>
-            <ScreenL1 />
-          </DCArtboard>
-          <DCArtboard id="L1-bright" label="L1 · Полотна (главная) · яркая версия" width={W} height={780}>
-            <ScreenL1Bright />
-          </DCArtboard>
-          <DCArtboard id="L1-split" label="L1 · Полотна (главная) · нейтральная половина → цвет" width={W} height={780}>
-            <ScreenL1Split />
-          </DCArtboard>
           <DCArtboard id="L1-soft" label="L1 · Полотна (главная) · пастельная, в палитре сайта" width={W} height={780}>
             <ScreenL1Soft />
-          </DCArtboard>
-          <DCArtboard id="L1-soft-plain" label="L1 · Полотна (главная) · пастельная без иллюстраций" width={W} height={780}>
-            <ScreenL1SoftPlain />
           </DCArtboard>
           <DCArtboard id="L2" label="L2 · Полотна «Всё об энергии»"    width={W} height={780}>
             <ScreenL2 />
@@ -44,6 +32,34 @@
           </DCArtboard>
           <DCArtboard id="L4-time" label="L4 · Всё о времени · плейлист с подзаголовками + матрица" width={1280} height={1080}>
             <ScreenL4Time />
+          </DCArtboard>
+          <DCArtboard id="L4-time-pereizluchatel" label="L4 · Всё о времени · с блоком переизлучения" width={1280} height={1140}>
+            <ScreenL4TimePereizluchatel />
+          </DCArtboard>
+          <DCArtboard id="L4-time-pereizluchatel-window" label="L4 · Всё о времени · переизлучение (prev/active/next + fade-ссылки)" width={1280} height={1180}>
+            <ScreenL4TimePereizluchatelWindow />
+          </DCArtboard>
+          <DCArtboard id="L4-time-filled" label="L4 · Всё о времени · ячейка заливается цветом (пульс по цвету)" width={1280} height={1080}>
+            <ScreenL4TimeFilled />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="polotna-screens-archive"
+          title="АРХИВ · ранние варианты L1"
+          subtitle="Отложенные версии главной — оставлены для истории"
+        >
+          <DCArtboard id="L1-archive" label="АРХИВ · L1 · Полотна (главная)" width={W} height={780}>
+            <ScreenL1 />
+          </DCArtboard>
+          <DCArtboard id="L1-bright-archive" label="АРХИВ · L1 · яркая версия" width={W} height={780}>
+            <ScreenL1Bright />
+          </DCArtboard>
+          <DCArtboard id="L1-split-archive" label="АРХИВ · L1 · нейтральная половина → цвет" width={W} height={780}>
+            <ScreenL1Split />
+          </DCArtboard>
+          <DCArtboard id="L1-soft-plain-archive" label="АРХИВ · L1 · пастельная без иллюстраций" width={W} height={780}>
+            <ScreenL1SoftPlain />
           </DCArtboard>
         </DCSection>
       </DesignCanvas>
